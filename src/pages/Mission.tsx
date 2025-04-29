@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import {
   Accordion,
   AccordionContent,
@@ -61,6 +62,8 @@ const Mission = () => {
 
   return (
     <div className="flex flex-col pt-16">
+      <SEO pageName="mission" />
+      
       {/* Hero Section */}
       <section className="min-h-[60vh] flex flex-col justify-center relative">
         <div

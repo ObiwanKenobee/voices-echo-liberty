@@ -3,10 +3,13 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 
 const Home = () => {
   return (
     <div className="flex flex-col">
+      <SEO pageName="home" />
+      
       {/* Hero Section */}
       <section className="min-h-screen flex flex-col justify-center relative">
         <div

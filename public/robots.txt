@@ -1,3 +1,11 @@
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://voicesforthevoiceless.org/sitemap.xml
+
+# Specific rules for major crawlers
 User-agent: Googlebot
 Allow: /
 
@@ -10,5 +18,11 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: DuckDuckBot
 Allow: /
+
+# Prevent crawling of admin or sensitive areas (if any in the future)
+User-agent: *
+Disallow: /admin/
+Disallow: /private/
+

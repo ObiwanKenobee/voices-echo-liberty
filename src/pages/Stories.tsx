@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const Stories = () => {
   const [activeFilter, setActiveFilter] = useState<string>("all");
@@ -76,6 +77,8 @@ const Stories = () => {
 
   return (
     <div className="flex flex-col pt-16">
+      <SEO pageName="stories" />
+      
       {/* Hero Section */}
       <section className="min-h-[50vh] flex flex-col justify-center relative">
         <div
