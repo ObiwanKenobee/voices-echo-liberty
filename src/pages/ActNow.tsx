@@ -17,15 +17,15 @@ const ActNow = () => {
     e.preventDefault();
     
     try {
-      // Save the form data to the database
+      // Save the form data to the database - fixing the field names to match the schema
       const { error } = await supabase
         .from('partners')
         .insert({
-          name,
-          email,
-          message,
+          name: name,
+          contact_email: email,  // Changed from 'email' to 'contact_email' to match schema
+          description: message,
           status: 'pending',
-          type: 'volunteer',
+          partnership_type: 'volunteer', // Required field according to schema
         });
         
       if (error) throw error;
