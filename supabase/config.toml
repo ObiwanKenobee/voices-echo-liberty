@@ -1,1 +1,15 @@
+
 project_id = "jklewwlnrlzomkaetjjo"
+
+[api]
+# Port = 54321
+# Hostname = "localhost"
+# OidcClientId = ""
+# OidcClientSecret = ""
+
+[api.jwt]
+# roles = {"anon" = "anon", "authenticated" = "authenticated", "service_role" = "service_role"}
+
+[functions]
+[functions.api]
+verify_jwt = true

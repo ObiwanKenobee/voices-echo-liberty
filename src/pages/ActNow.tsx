@@ -2,24 +2,45 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowRight, Globe, Users, Shield } from "lucide-react";
+import { ArrowRight, Globe, Users, Shield, Database, BarChart, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { DataList } from "@/components/DataList";
+import { toast } from "@/components/ui/sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const ActNow = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // This would be replaced with actual form submission logic
-    console.log("Form submitted:", { name, email, message });
-    // Reset form
-    setName("");
-    setEmail("");
-    setMessage("");
-    // Show success message (in a real app, use a toast notification)
-    alert("Thank you for joining our movement! We'll be in touch soon.");
+    
+    try {
+      // Save the form data to the database
+      const { error } = await supabase
+        .from('partners')
+        .insert({
+          name,
+          email,
+          message,
+          status: 'pending',
+          type: 'volunteer',
+        });
+        
+      if (error) throw error;
+      
+      // Reset form
+      setName("");
+      setEmail("");
+      setMessage("");
+      
+      // Show success message
+      toast.success("Thank you for joining our movement! We'll be in touch soon.");
+    } catch (err) {
+      console.error("Form submission error:", err);
+      toast.error("There was an error submitting your information. Please try again.");
+    }
   };
 
   return (
@@ -41,6 +62,40 @@ const ActNow = () => {
             <p className="text-xl text-white/90 mb-8 font-opensans leading-relaxed">
               There are many ways to join our movement and make a difference. Choose the path that aligns with your skills, resources, and passion.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Dashboard Data Preview */}
+      <section className="bg-gray-50 py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-playfair font-bold text-center mb-12 text-earth-green">
+            Live Data Dashboard
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">
+            <DataList 
+              entity="initiatives" 
+              title="Ethical Initiatives"
+              description="Current initiatives we're working on" 
+            />
+            <DataList 
+              entity="alerts" 
+              title="Wildlife Alerts" 
+              description="Recent wildlife trafficking alerts"
+            />
+            <DataList 
+              entity="reports"
+              title="ESG Reports" 
+              description="Environmental, social, and governance reports"
+            />
+          </div>
+          <div className="text-center">
+            <p className="text-muted-foreground mb-4">
+              Our API provides real-time access to critical data about our initiatives, alerts, and reports. 
+            </p>
+            <Button className="bg-crimson hover:bg-crimson/90 text-white">
+              Access Full API Documentation <ArrowRight className="ml-2" size={16} />
+            </Button>
           </div>
         </div>
       </section>
@@ -320,6 +375,67 @@ const ActNow = () => {
               </div>
             </TabsContent>
           </Tabs>
+        </div>
+      </section>
+
+      {/* API Features Section */}
+      <section className="bg-gray-100 py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-playfair font-bold text-center mb-12 text-earth-green">
+            Explore Our API
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <div className="h-12 w-12 bg-earth-green/10 rounded-full flex items-center justify-center mb-4">
+                <Database className="h-6 w-6 text-earth-green" />
+              </div>
+              <h3 className="text-xl font-playfair font-bold mb-2">Data Access</h3>
+              <p className="text-gray-600 mb-4">
+                Get real-time access to our database of wildlife trafficking reports, ethical sourcing initiatives, and more.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li>• Wildlife alert monitoring</li>
+                <li>• Supply chain transparency</li>
+                <li>• Ethical sourcing verification</li>
+              </ul>
+            </div>
+            
+            <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <div className="h-12 w-12 bg-crimson/10 rounded-full flex items-center justify-center mb-4">
+                <BarChart className="h-6 w-6 text-crimson" />
+              </div>
+              <h3 className="text-xl font-playfair font-bold mb-2">Analytics</h3>
+              <p className="text-gray-600 mb-4">
+                Leverage our analytics API to generate insights and visualizations from our extensive dataset.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li>• Trafficking pattern recognition</li>
+                <li>• Impact measurement</li>
+                <li>• ESG performance metrics</li>
+              </ul>
+            </div>
+            
+            <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <div className="h-12 w-12 bg-gold/10 rounded-full flex items-center justify-center mb-4">
+                <AlertTriangle className="h-6 w-6 text-gold" />
+              </div>
+              <h3 className="text-xl font-playfair font-bold mb-2">Alerts</h3>
+              <p className="text-gray-600 mb-4">
+                Subscribe to real-time alerts for wildlife trafficking incidents and high-risk areas.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li>• Webhook integrations</li>
+                <li>• SMS & email notifications</li>
+                <li>• Custom alert thresholds</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="mt-12 text-center">
+            <Button className="bg-earth-green hover:bg-earth-green/90 text-white">
+              View API Documentation <ArrowRight className="ml-2" size={16} />
+            </Button>
+          </div>
         </div>
       </section>
 
