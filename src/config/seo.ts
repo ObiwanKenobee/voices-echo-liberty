@@ -59,7 +59,7 @@ export const pageSEO = {
   },
   actNow: {
     title: 'Take Action Now',
-    description: 'Whether you're a technologist, donor, or activist, there's a place for you in our global community of changemakers.',
+    description: 'Whether you\'re a technologist, donor, or activist, there\'s a place for you in our global community of changemakers.',
     canonical: 'https://voicesforthevoiceless.org/act-now',
   }
 };
@@ -112,4 +112,3 @@ export const getArticleSchema = (article: {
     },
   };
 };
-
