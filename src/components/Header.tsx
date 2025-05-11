@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,11 +64,24 @@ const Header: React.FC = () => {
               {item.name}
             </Link>
           ))}
-          <Button
-            className="bg-crimson hover:bg-crimson/90 text-white font-opensans"
-          >
-            Join Us
-          </Button>
+          
+          {user ? (
+            <Link to="/dashboard">
+              <Button
+                className="bg-crimson hover:bg-crimson/90 text-white font-opensans"
+              >
+                Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <Link to="/auth">
+              <Button
+                className="bg-crimson hover:bg-crimson/90 text-white font-opensans"
+              >
+                Join Us
+              </Button>
+            </Link>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -98,11 +113,30 @@ const Header: React.FC = () => {
                   {item.name}
                 </Link>
               ))}
-              <Button
-                className="bg-crimson hover:bg-crimson/90 text-white font-opensans w-full"
-              >
-                Join Us
-              </Button>
+              
+              {user ? (
+                <Link 
+                  to="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Button
+                    className="w-full bg-crimson hover:bg-crimson/90 text-white font-opensans"
+                  >
+                    Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <Link 
+                  to="/auth"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Button
+                    className="w-full bg-crimson hover:bg-crimson/90 text-white font-opensans"
+                  >
+                    Join Us
+                  </Button>
+                </Link>
+              )}
             </nav>
           </div>
         </div>
